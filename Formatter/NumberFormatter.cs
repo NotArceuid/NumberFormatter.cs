@@ -21,6 +21,8 @@
             }
         }
 
+        public static int SignificantDigits = 6;
+        
         public static void AddFormat(string formatName, Dictionary<int, string> values)
         {
             if (Formats.ContainsKey(formatName))
@@ -54,7 +56,11 @@
                 unit = value.ToString();
             }
  
-            return (BigDouble.Floor(m * 100) / 100).ToString("0.##") + unit;
+            var num = (BigDouble.Floor(m * 100) / 100).ToString();
+            if (num.Length > SignificantDigits)
+                num = num.Remove(SignificantDigits);
+
+            return num + unit;
         }
 
         public static string Format(this BigDouble value, string format)
@@ -87,7 +93,11 @@
                 unit = value.ToString();
             }
  
-            return (BigDouble.Floor(m * 100) / 100).ToString("0.##") + unit;
+            var num = (BigDouble.Floor(m * 100) / 100).ToString();
+            if (num.Length > SignificantDigits)
+                num = num.Remove(SignificantDigits);
+
+            return num + unit;
         }
 
         public static string Format(this int value, string format)
